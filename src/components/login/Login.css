@@ -1,0 +1,22 @@
+/* Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-box {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+}
+
+.input-container {
+  margin-bottom: 20px; /* Aumenta la separación entre los campos de entrada */
+}
+
+.signin-button {
+  width: 100%;
+  margin-top: 20px; /* Aumenta la separación entre los campos de entrada y el botón */
+}
