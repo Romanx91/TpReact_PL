@@ -1,0 +1,37 @@
+.container_FormLogin {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 50vh; /* O cualquier otra unidad relativa que desees usar */
+  width: 30vw; /* O cualquier otra unidad relativa que desees usar */
+  background-color: #f9dec9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3%;
+  position: fixed;
+  box-sizing: border-box;
+  background-color: #e6fffd;
+  min-width: 372.594px; /* Establece un ancho máximo */
+  min-height: 388px;
+}
+
+.btn-primary {
+  background: #acbcff;
+  border-color: #acbcff;
+}
+.btn-primary:hover {
+  background: #b799ff;
+  border-color: #b799ff;
+}
+
+.interior {
+  width: 80%; /* Porcentaje de ancho relativo al contenedor_FormLogin */
+  height: 80%; /* Porcentaje de alto relativo al contenedor_FormLogin */
+  padding: 20px; /* O cualquier otro espaciado interno que desees */
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #acbcff;
+}
