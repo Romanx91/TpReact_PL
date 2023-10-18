@@ -10,12 +10,20 @@ function App() {
     setShowRegister(true);
   };
 
+  const handleLoginClick = () => {
+    setShowRegister(false);
+  };
+
   return (
     <div className="App">
-      <Login onRegisterClick={handleRegisterClick} />
+      {!showRegister && (
+        <div className="login-section">
+          <Login onRegisterClick={handleRegisterClick} />
+        </div>
+      )}
       {showRegister && (
         <div className="register-section">
-          <Register />
+          <Register onLoginClick={handleLoginClick} />
         </div>
       )}
     </div>
