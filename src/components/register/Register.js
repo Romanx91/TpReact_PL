@@ -1,100 +1,88 @@
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
+import React, { useState } from "react";
+import "./Register.css";
 
-function Register({ onLoginClick }) {
-  const [validated, setValidated] = useState(false);
+const Register = ({ onCancel }) => {
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  const handleRegister = () => {
+    // Validación del email
+    if (!email.includes("@") || !email.includes(".")) {
+      setIsEmailValid(false); // Establece el estado de validez del email a falso
+      return;
+    } else {
+      setIsEmailValid(true); // Establece el estado de validez del email a verdadero
     }
 
-    setValidated(true);
+    // Validación de la contraseña
+    if (password.length < 6) {
+      alert("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    // Comentario: Aquí es donde enviarías los datos al servidor para registrar al usuario.
+    // El servidor debería verificar si el nombre de usuario ya existe y, en caso afirmativo,
+    // devolver un mensaje de error.
+
+    alert("Usuario registrado");
+    onCancel(); // Esto te llevará de nuevo a la página de inicio de sesión
   };
 
   return (
-    <div className="container_register">
-      <div className="contenido_register">
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="4" controlId="validationCustom01">
-              <Form.Label>First name</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="First name"
-                defaultValue="Mark"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationCustom02">
-              <Form.Label>Last name</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Last name"
-                defaultValue="Otto"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-              <Form.Label>Username</Form.Label>
-              <InputGroup hasValidation>
-                <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Username"
-                  aria-describedby="inputGroupPrepend"
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please choose a username.
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="validationCustom03">
-              <Form.Label>City</Form.Label>
-              <Form.Control type="text" placeholder="City" required />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid city.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom04">
-              <Form.Label>State</Form.Label>
-              <Form.Control type="text" placeholder="State" required />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid state.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom05">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control type="text" placeholder="Zip" required />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid zip.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Form.Group className="mb-3">
-            <Form.Check
-              required
-              label="Agree to terms and conditions"
-              feedback="You must agree before submitting."
-              feedbackType="invalid"
-            />
-          </Form.Group>
-          <Button type="submit">Submit form</Button>
-        </Form>
+    <div className="register-container">
+      <div className="register">
+        <img src="https://example.com/icon.png" alt="icon" />
+        <h1>Registro</h1>
+        <input
+          type="text"
+          placeholder="Nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Apellido"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+        <label>
+          {isEmailValid ? "Email" : "Por favor, ingrese un email válido."}{" "}
+          {/* Cambia el texto del label aquí */}
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <input
+          type="text"
+          placeholder="Nombre de usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <div className="register-buttons">
+          <button onClick={handleRegister}>Registrar</button>
+          <button onClick={onCancel}>Cancelar</button>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Register;

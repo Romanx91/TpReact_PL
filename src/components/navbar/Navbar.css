@@ -1,0 +1,113 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #d45d5d;
+  color: white;
+}
+
+/* Estilo para el título */
+.navbar-title {
+  flex: 1;
+  text-align: left;
+  margin-left: 20px;
+  background: linear-gradient(to bottom, #f10424, #9521f3); /* De rojo a cian */
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Estilo para el botón de cambio de tema y los iconos del sol y la luna */
+.navbar-theme-toggle {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo para los enlaces de la barra de navegación */
+.navbar-links {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-links a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.459);
+}
+
+/* Estilo para los iconos de usuario y carrito */
+.navbar-icons {
+  flex: 1;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.navbar-icons a {
+  margin: 0 10px;
+}
+
+/* Estilo para el contador del carrito */
+.cart-count {
+  top: -5px; /* Ajusta según tus necesidades */
+  right: -5px; /* Ajusta según tus necesidades */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 1px 3px;
+  font-size: 8px;
+  z-index: 1; /* Para asegurarse de que aparezca en la parte superior */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px; /* Reducido a la mitad */
+  height: 17px; /* Reducido a la mitad */
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px; /* Reducido a la mitad */
+  width: 13px; /* Reducido a la mitad */
+  left: 2px; /* Reducido a la mitad */
+  bottom: 2px; /* Reducido a la mitad */
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px); /* Reducido a la mitad */
+}
+
+/* Estilo redondeado para el interruptor */
+.slider.round {
+  border-radius: 17px; /* Reducido a la mitad */
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

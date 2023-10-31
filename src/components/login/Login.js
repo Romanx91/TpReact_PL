@@ -1,82 +1,58 @@
-/* eslint-disable import/first */
-import Form from "react-bootstrap/Form";
-import { useRef, useState } from "react";
-import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../themeContext/ThemeContext";
 import "./Login.css";
 
-const Login = ({ onLoggedIn, onRegisterClick }) => {
-  const [email, setEmail] = useState("");
+const Login = ({ onRegisterClick }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setLoading } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const handleLogin = () => {
+    // Activa el spinner
+    setLoading(true);
 
-  const handleSignupClick = () => {
-    onRegisterClick();
+    // Aquí es donde realizarías la autenticación con la base de datos.
+    // ...
+
+    // Simula una redirección después de una operación exitosa de inicio de sesión
+    setTimeout(() => {
+      navigate("/otraRuta"); // Cambia esto a donde quieras redirigir después del inicio de sesión
+      setLoading(false); // Desactiva el spinner
+    }, 1000); // Este es un tiempo de espera simulado, reemplázalo con tu lógica real
   };
 
-  const emailChangeHandler = (event) => {
-    if (emailRef.current.value.length > 0) {
-      emailRef.current.style.borderColor = "";
-      emailRef.current.style.outline = "";
-    }
-    setEmail(event.target.value);
-  };
-
-  const passwordChangeHandler = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const signInHandler = () => {
-    if (emailRef.current.value.length === 0) {
-      emailRef.current.focus();
-      emailRef.current.style.borderColor = "red";
-      emailRef.current.style.outline = "none";
-      alert("Email vacío!");
-      return;
-    }
-
-    if (password.length === 0) {
-      passwordRef.current.focus();
-      passwordRef.current.style.borderColor = "red";
-      passwordRef.current.style.outline = "none";
-      alert("Password vacío");
-      return;
-    }
-    onLoggedIn();
-    /* navigate("/home");*/
+  const handleRegisterClick = () => {
+    navigate("/register"); // Navega a la página de registro
   };
 
   return (
-    <div className="container_FormLogin">
-      <div className="interior">
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-          <span> our </span>
-          <Button variant="primary" onClick={handleSignupClick}>
-            signup
-          </Button>
-        </Form>
+    <div className="login-container">
+      <div className="login">
+        <img src="https://example.com/icon.png" alt="icon" />
+        <h1>Iniciar sesión</h1>
+        <input
+          type="text"
+          placeholder="Nombre de usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button onClick={handleLogin} disabled={!username || !password}>
+          Ingresar
+        </button>
+        <button onClick={handleRegisterClick}>Registrar</button>
       </div>
     </div>
   );
 };
+
 export default Login;
