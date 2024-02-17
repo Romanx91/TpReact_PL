@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../themeContext/ThemeContext";
 import "./Login.css";
+import Cards from "../cards/Cards";
 
 const Login = ({ onRegisterClick }) => {
   const [username, setUsername] = useState("");
@@ -29,8 +30,12 @@ const Login = ({ onRegisterClick }) => {
 
   return (
     <div className="login-container">
+      <Cards />
       <div className="login">
-        <img src="https://example.com/icon.png" alt="icon" />
+        <img
+          src="https://github.com/Romanx91/TpReact_PL/blob/roman/src/components/icons/Icono.jpg"
+          alt="icon"
+        />
         <h1>Iniciar sesión</h1>
         <input
           type="text"
@@ -49,7 +54,7 @@ const Login = ({ onRegisterClick }) => {
         <button onClick={handleLogin} disabled={!username || !password}>
           Ingresar
         </button>
-        <button onClick={handleRegisterClick}>Registrar</button>
+        <button onClick={handleRegisterClick}>Registrarme</button>
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Register.css";
 
 const Register = ({ onCancel }) => {
@@ -8,6 +10,7 @@ const Register = ({ onCancel }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const navigate = useNavigate();
 
   const handleRegister = () => {
     // Validación del email
@@ -30,6 +33,10 @@ const Register = ({ onCancel }) => {
 
     alert("Usuario registrado");
     onCancel(); // Esto te llevará de nuevo a la página de inicio de sesión
+  };
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navega a la página de registro
   };
 
   return (
@@ -77,8 +84,8 @@ const Register = ({ onCancel }) => {
           required
         />
         <div className="register-buttons">
-          <button onClick={handleRegister}>Registrar</button>
-          <button onClick={onCancel}>Cancelar</button>
+          <button onClick={handleRegister}>Confirmar</button>
+          <button onClick={handleLoginClick}>Cancelar</button>
         </div>
       </div>
     </div>
