@@ -2,34 +2,26 @@ import React, { useContext, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
-import { ThemeContext } from "./components/themeContext/ThemeContext"; // Asegúrate de que la ruta sea correcta
-import Spinner from "./components/spinner/Spinner"; // Asegúrate de que la ruta sea correcta
+import { ThemeContext } from "./services/theme.context";
 import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
+import Dashboard from "./components/dashboard/Dashboard";
+import CheckoutPage from "./components/checkoutPage/CheckoutPage";
+import "./App.css";
 
 const App = () => {
-  const { theme, toggleTheme, loading, setLoading } = useContext(ThemeContext);
-
-  useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => setLoading(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [loading, setLoading]);
-
-  const handleNavigation = () => {
-    setLoading(true);
-  };
+  const { theme } = useContext(ThemeContext);
 
   return (
     <Router>
-      <div>
+      <div className={theme === "dark" && "dark-theme"}>
         <Navbar />
-        {loading && <Spinner />}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/CheckoutPage" element={<CheckoutPage />} />
+          <Route path="/" element={<Navigate to="/Dashboard" />} />
         </Routes>
         {/* Aquí puedes poner botones o enlaces que llamen a handleNavigation cuando se haga clic en ellos */}
       </div>

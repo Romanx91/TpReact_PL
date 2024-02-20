@@ -2,14 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { ThemeContextProvider } from "./components/themeContext/ThemeContext"; // Asegúrate de que la ruta sea correcta
+import { ThemeContextProvider } from "./services/theme.context";
+import { StateProvider } from "./StateProvider";
+import reducer, { initialState } from "./Reducer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeContextProvider>
-      <App />
-    </ThemeContextProvider>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
+    </StateProvider>
   </React.StrictMode>
 );
 

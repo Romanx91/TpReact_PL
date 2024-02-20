@@ -1,17 +1,21 @@
-import React, { useState, createContext } from "react";
+import { useState } from "react";
+import { createContext } from "react";
 
 export const ThemeContext = createContext();
 
 export const ThemeContextProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
-  const [loading, setLoading] = useState(false);
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, loading, setLoading }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
