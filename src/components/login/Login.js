@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,9 +10,16 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import logo from "../icons/Icono.jpg";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./Login.css";
+import { ThemeContext } from "../../services/theme.context";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithCredential } from "firebase/auth";
+import { auth } from "../../firebase";
 
 function Copyright(props) {
   return (
@@ -45,9 +53,33 @@ export default function Login() {
     });
   };
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const signin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Redirect to login or perform other actions upon successful registration
+      navigate("/Dashboard");
+    } catch (error) {
+      // Handle registration errors gracefully
+      alert(error.message);
+    }
+  };
+
+  const { theme } = useContext(ThemeContext);
+
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "88.6vh" }}>
         <CssBaseline />
         <Grid
           item
@@ -56,7 +88,7 @@ export default function Login() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+              "url(https://images5.alphacoders.com/487/487460.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -76,12 +108,8 @@ export default function Login() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
+            <img className="icono" src={logo} alt="Logo" />
+
             <Box
               component="form"
               noValidate
@@ -89,46 +117,51 @@ export default function Login() {
               sx={{ mt: 1 }}
             >
               <TextField
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Email "
                 name="email"
                 autoComplete="email"
                 autoFocus
               />
               <TextField
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Contraseña"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="Recordarme "
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={signin}
               >
-                Sign In
+                Ingresar
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    ¿Has olvidado tu contraseña?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/register" variant="body2">
+                    {"¿No tienes una cuenta? Registrese"}
                   </Link>
                 </Grid>
               </Grid>

@@ -1,95 +1,181 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import logo from "../icons/Icono.jpg";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./Register.css";
+import { auth } from "../../firebase";
 
-const Register = ({ onCancel }) => {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const navigate = useNavigate();
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
-  const handleRegister = () => {
-    // Validación del email
-    if (!email.includes("@") || !email.includes(".")) {
-      setIsEmailValid(false); // Establece el estado de validez del email a falso
-      return;
-    } else {
-      setIsEmailValid(true); // Establece el estado de validez del email a verdadero
-    }
+// TODO remove, this demo shouldn't need to reset the theme.
 
-    // Validación de la contraseña
-    if (password.length < 6) {
-      alert("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
+const defaultTheme = createTheme();
 
-    // Comentario: Aquí es donde enviarías los datos al servidor para registrar al usuario.
-    // El servidor debería verificar si el nombre de usuario ya existe y, en caso afirmativo,
-    // devolver un mensaje de error.
-
-    alert("Usuario registrado");
-    onCancel(); // Esto te llevará de nuevo a la página de inicio de sesión
+export default function Register() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
   };
 
-  const handleLoginClick = () => {
-    navigate("/login"); // Navega a la página de registro
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const navigate = useNavigate();
+
+  const signup = async (e) => {
+    e.preventDefault();
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+        name,
+        lastName
+      );
+
+      // Redirect to login or perform other actions upon successful registration
+      navigate("/login");
+    } catch (error) {
+      // Handle registration errors gracefully
+      alert(error.message);
+    }
   };
 
   return (
-    <div className="register-container">
-      <div className="register">
-        <img src="https://example.com/icon.png" alt="icon" />
-        <h1>Registro</h1>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Apellido"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <label>
-          {isEmailValid ? "Email" : "Por favor, ingrese un email válido."}{" "}
-          {/* Cambia el texto del label aquí */}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <input
-          type="text"
-          placeholder="Nombre de usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <div className="register-buttons">
-          <button onClick={handleRegister}>Confirmar</button>
-          <button onClick={handleLoginClick}>Cancelar</button>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <ThemeProvider theme={defaultTheme}>
+      <div className="register-container">
+        <Container component="main" maxWidth="md" sx={{ marginTop: "150px" }}>
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img className="icono" src={logo} alt="Logo" />
 
-export default Register;
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="given-name"
+                    name="name"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Nombre"
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Apellido"
+                    name="lastName"
+                    autoComplete="family-name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email "
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    fullWidth
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                  />
+                </Grid>
+                <Grid item xs={12} color={"black"}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value="allowExtraEmails" color="secondary" />
+                    }
+                    label="Quiero recibir inspiración, promociones de marketing y actualizaciones por correo electrónico."
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={signup}
+              >
+                registrar
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/login" variant="body2">
+                    ¿Ya tienes una cuenta? Iniciar sesión
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+          <Copyright sx={{ mt: 5 }} />
+        </Container>
+      </div>
+    </ThemeProvider>
+  );
+}

@@ -1,39 +1,19 @@
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Ajusta la altura al 100% de la altura de la ventana del navegador */
+img.icono {
+  width: 9rem;
+  border-radius: 20%;
 }
 
-.login {
-  width: 382px;
-  height: 334px;
-  border: 1px solid #ccc;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+div.login-container {
+  height: 100%;
+  height: 100%;
+
+  background-color: #f5f5f5;
 }
 
-.login img {
-  width: 1.5cm;
-  height: 1.5cm;
+.conteiner {
 }
 
-.login button {
-  margin-top: 10px;
-  cursor: pointer;
-  background-color: lightgray;
-}
-
-.login button:hover {
-  background-color: darkgray;
-}
-
-/* Hacer el formulario responsivo */
-@media (max-width: 800px) {
-  .login {
-    width: 100%;
-  }
+.dark-theme {
+  background-color: #040111;
+  color: white;
 }

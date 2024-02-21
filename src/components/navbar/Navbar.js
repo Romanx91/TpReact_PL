@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { ThemeContext } from "../../services/theme.context";
-
+import Link from "@mui/material/Link";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
@@ -18,6 +18,8 @@ import "./Navbar.css";
 import { ShoppingCart } from "@mui/icons-material";
 import { useStateValue } from "../../StateProvider";
 import Badge from "@mui/material/Badge";
+import { auth } from "../../firebase";
+import { actionTypes } from "../../Reducer";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -74,13 +76,28 @@ export default function Navbar() {
   const handleCheckoutPageClick = () => {
     navigate("/CheckoutPage"); // Navega a la página de registro
   };
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
   const { toggleTheme } = useContext(ThemeContext);
   const { theme } = useContext(ThemeContext);
-
+  const handleAuth = () => {
+    if (user) {
+      auth.signOut();
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        basket: [],
+      });
+      dispatch({
+        type: actionTypes.SET_USER,
+        user: null,
+      });
+      navigate("/Dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" className="nav">
+      <AppBar position="sticky" top="0" className="nav">
         <Toolbar className={theme === "dark" && "dark-theme"}>
           <img className="logo" src={logo} alt="" />
           <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
@@ -97,13 +114,21 @@ export default function Navbar() {
             }
           />
 
-          <Button
-            className="ingreso"
-            variant="contained"
-            onClick={handleLoginClick}
+          <Typography variant="h8" component="div" sx={{ flexGrow: 0.05 }}>
+            {user ? `${user?.email}` : ""}
+          </Typography>
+          <Link
+          //}href="/login"/
           >
-            <strong>Ingresar</strong>
-          </Button>
+            <Button
+              className="ingreso"
+              variant="contained"
+              // onClick={handleLoginClick}//
+              onClick={handleAuth}
+            >
+              <strong>{user ? "Salir" : "Ingresar"}</strong>
+            </Button>
+          </Link>
           <IconButton aria-label="cart" color="inherit">
             <Badge badgeContent={basket?.length} color="success" showZero>
               <ShoppingCart

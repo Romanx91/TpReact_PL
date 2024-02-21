@@ -8,16 +8,34 @@ import Navbar from "./components/navbar/Navbar";
 import Dashboard from "./components/dashboard/Dashboard";
 import CheckoutPage from "./components/checkoutPage/CheckoutPage";
 import "./App.css";
+import { auth } from "./firebase";
+import { useStateValue } from "./StateProvider";
+import { actionTypes } from "./Reducer";
+import Checkout from "./components/checkout/Checkout";
 
 const App = () => {
+  const [{ user }, dispatch] = useStateValue();
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      console.log(authUser);
+      if (authUser) {
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: authUser,
+        });
+      }
+    });
+  }, []);
 
   return (
     <Router>
       <div className={theme === "dark" && "dark-theme"}>
         <Navbar />
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/CheckoutPage" element={<CheckoutPage />} />
