@@ -54,6 +54,10 @@ export default function Register() {
 
   const navigate = useNavigate();
 
+  const handleLoginPageClick = () => {
+    navigate("/Login"); // Navega a la página de registro
+  };
+
   const signup = async (e) => {
     e.preventDefault();
 
@@ -65,7 +69,7 @@ export default function Register() {
       );
 
       // Redirect to login or perform other actions upon successful registration
-      navigate("/login");
+      navigate("/Login");
     } catch (error) {
       // Handle registration errors gracefully
       alert(error.message);
@@ -159,9 +163,9 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Button onClick={handleLoginPageClick}>
                   ¿Ya tienes una cuenta? Iniciar sesión
-                </Link>
+                </Button>
               </Grid>
             </Grid>
           </Box>

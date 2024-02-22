@@ -54,6 +54,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const handleRegisterPageClick = () => {
+    navigate("/Register"); // Navega a la página de registro
+  };
 
   const signin = async (e) => {
     e.preventDefault();
@@ -153,15 +156,17 @@ export default function Login() {
                 Ingresar
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    ¿Has olvidado tu contraseña?
-                  </Link>
-                </Grid>
+                {
+                  //} <Grid item xs>
+                  // <Link href="#" variant="body2">
+                  //  ¿Has olvidado tu contraseña?
+                  // </Link>
+                  //</Grid>
+                }
                 <Grid item>
-                  <Link href="/Register" variant="body2">
-                    {"¿No tienes una cuenta? Registrese"}
-                  </Link>
+                  <Button onClick={handleRegisterPageClick}>
+                    ¿No tienes una cuenta? Registrese
+                  </Button>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
