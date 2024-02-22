@@ -77,16 +77,17 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "88.6vh" }}>
+      <Grid container component="main" sx={{ height: "89vh" }}>
         <CssBaseline />
         <Grid
+          className="loginimage"
           item
           xs={false}
           sm={4}
           md={7}
+          src={logo}
           sx={{
-            backgroundImage:
-              "url(https://images5.alphacoders.com/487/487460.png)",
+            //backgroundImage url(""),
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
