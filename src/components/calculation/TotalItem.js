@@ -8,9 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 const TotalItem = () => {
   const navigate = useNavigate();
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
   const handleCheckoutClick = () => {
-    navigate("/Checkout"); // Navega a la página de registro
+    if (user) {
+      navigate("/Checkout"); // Navega a la página de registro
+    } else {
+      navigate("/Login"); // Navega a la página de registro
+    }
   };
   return (
     <div className="totalitem">

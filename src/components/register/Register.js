@@ -9,48 +9,24 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import logo from "../icons/Icono.jpg";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "./Register.css";
-import { auth } from "../../firebase";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import API_URL from "../../services/const/api";
+import logo from "../icons/Icono.jpg";
 
 const defaultTheme = createTheme();
 
 export default function Register() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,21 +34,47 @@ export default function Register() {
     navigate("/Login"); // Navega a la página de registro
   };
 
+  const validateFields = () => {
+    setNameError(username.trim() === "");
+    setEmailError(email.trim() === "");
+    setPasswordError(password.trim() === "");
+    setLastNameError(lastName.trim() === "");
+  };
+
   const signup = async (e) => {
     e.preventDefault();
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+    validateFields();
 
-      // Redirect to login or perform other actions upon successful registration
-      navigate("/Login");
+    if (nameError || emailError || passwordError || lastNameError) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/User`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          lastName,
+          password,
+          email,
+          username,
+          Role: "1",
+        }),
+      });
+
+      if (response.ok) {
+        // Registro exitoso, puedes manejar la respuesta del servidor si es necesario
+        navigate("/Login"); // Redirige a la página de inicio de sesión después del registro
+      } else {
+        // Manejar errores, por ejemplo, mostrar un mensaje de error
+        console.log("Error en el registro");
+      }
     } catch (error) {
-      // Handle registration errors gracefully
-      alert(error.message);
+      console.error("Error en la solicitud:", error);
     }
   };
 
@@ -89,14 +91,24 @@ export default function Register() {
           }}
         >
           <img className="icono" src={logo} alt="Logo" />
-
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate onSubmit={signup} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="username"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Usuario"
+                  autoFocus
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {nameError && (
+                  <Typography color="error">Ingrese un usuario</Typography>
+                )}
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -106,7 +118,12 @@ export default function Register() {
                   id="name"
                   label="Nombre"
                   autoFocus
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
+                {nameError && (
+                  <Typography color="error">Ingrese un nombre</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -116,7 +133,12 @@ export default function Register() {
                   label="Apellido"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
+                {lastNameError && (
+                  <Typography color="error">Ingrese un apellido</Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -125,10 +147,13 @@ export default function Register() {
                   required
                   fullWidth
                   id="email"
-                  label="Email "
+                  label="Email"
                   name="email"
                   autoComplete="email"
                 />
+                {emailError && (
+                  <Typography color="error">Ingrese un email válido</Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -142,6 +167,11 @@ export default function Register() {
                   id="password"
                   autoComplete="new-password"
                 />
+                {passwordError && (
+                  <Typography color="error">
+                    La contraseña debe tener al menos 6 caracteres
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12} color={"black"}>
                 <FormControlLabel
@@ -157,9 +187,8 @@ export default function Register() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={signup}
             >
-              registrar
+              Registrar
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -170,7 +199,6 @@ export default function Register() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
