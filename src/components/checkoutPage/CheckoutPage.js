@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import CheckoutCard from "../checkoutCard/CheckoutCard";
-import CardFalse from "../datafalse/DataFalse";
+
 import Typography from "@mui/material/Typography";
 import TotalItem from "../calculation/TotalItem";
 

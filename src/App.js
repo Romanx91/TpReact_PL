@@ -36,7 +36,7 @@ const App = () => {
         <Routes>
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/Register" element={<Register />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/CheckoutPage" element={<CheckoutPage />} />
           <Route path="/" element={<Navigate to="/Dashboard" />} />

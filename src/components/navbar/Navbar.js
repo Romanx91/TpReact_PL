@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { ThemeContext } from "../../services/theme.context";
-import Link from "@mui/material/Link";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
@@ -70,8 +69,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const handleLoginClick = () => {
-    navigate("/login"); // Navega a la página de registro
+  const handleDashboardClick = () => {
+    navigate("/Dashboard"); // Navega a la página de registro
   };
   const handleCheckoutPageClick = () => {
     navigate("/CheckoutPage"); // Navega a la página de registro
@@ -100,8 +99,16 @@ export default function Navbar() {
       <AppBar position="sticky" top="0" className="nav">
         <Toolbar className={theme === "dark" && "dark-theme"}>
           <img className="logo" src={logo} alt="" />
-          <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
-            𝕮𝖆𝖗𝖉𝖘𝕭𝖆𝖙𝖙𝖑𝖊𝕼𝖚𝖊𝖘𝖙𝖘
+
+          <Typography
+            variant="h2"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            onClick={handleDashboardClick}
+          >
+            <Button className="loginbutton" variant="h2">
+              𝕮𝖆𝖗𝖉𝖘𝕭𝖆𝖙𝖙𝖑𝖊𝕼𝖚𝖊𝖘𝖙𝖘
+            </Button>
           </Typography>
 
           <FormControlLabel
@@ -117,18 +124,16 @@ export default function Navbar() {
           <Typography variant="h8" component="div" sx={{ flexGrow: 0.05 }}>
             {user ? `${user?.email}` : ""}
           </Typography>
-          <Link
-          //}href="/login"/
+
+          <Button
+            className="ingreso"
+            variant="contained"
+            // onClick={handleLoginClick}//
+            onClick={handleAuth}
           >
-            <Button
-              className="ingreso"
-              variant="contained"
-              // onClick={handleLoginClick}//
-              onClick={handleAuth}
-            >
-              <strong>{user ? "Salir" : "Ingresar"}</strong>
-            </Button>
-          </Link>
+            <strong>{user ? "Salir" : "Ingresar"}</strong>
+          </Button>
+
           <IconButton aria-label="cart" color="inherit">
             <Badge badgeContent={basket?.length} color="success" showZero>
               <ShoppingCart

@@ -8,6 +8,10 @@ button.ingreso {
   color: #ffffff;
 }
 
+button.loginbutton {
+  font-size: 50px;
+  line-height: 25px;
+}
 .dark-theme {
   background-color: #020c1a;
   color: white;

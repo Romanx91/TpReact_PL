@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -18,7 +17,6 @@ import "./Login.css";
 import { ThemeContext } from "../../services/theme.context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithCredential } from "firebase/auth";
 import { auth } from "../../firebase";
 
 function Copyright(props) {
@@ -160,7 +158,7 @@ export default function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  <Link href="/Register" variant="body2">
                     {"¿No tienes una cuenta? Registrese"}
                   </Link>
                 </Grid>
